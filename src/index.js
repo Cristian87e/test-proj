@@ -1,5 +1,5 @@
 import 'babel-polyfill'
-import 'styles.css'
+import './styles.css'
 
 let root = document.getElementById('root')
 debugger

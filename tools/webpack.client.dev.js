@@ -19,7 +19,6 @@ module.exports = {
     //   'react-router',
     //   'redux',
     //   'react-redux',
-    //   'aphrodite'
     // ]
   },
   output: {
@@ -49,7 +48,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader',
+        loader: ExtractTextPlugin.extract('style', 'css'),
+        include: CLIENT_ENTRY,
         // ExtractTextPlugin.extract({
         //   fallbackLoader: "style-loader",
         //   loader: "css-loader"
@@ -57,15 +57,22 @@ module.exports = {
       },
     ]
   },
-  resolve: { extensions: ['', '.js', '.jsx','.css']},//add '.css' "root": __dirname }
-  // plugins: [
-  //   new ExtractTextPlugin("[name].css")
-  // ],
+  resolve: {
+    root: path.resolve(__dirname),
+    extensions: ['', '.js', '.jsx', '.css'],
+    alias: {
+      src: CLIENT_ENTRY,
+      npm: 'node_modules',
+    }
+  },
   standard: {
     // config options to be passed through to standard e.g.
     parser: 'babel-eslint'
   },
   plugins: [
+    new ExtractTextPlugin("[name].css", {
+      allChunks : true
+    }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development'),
       '__DEV__': true
